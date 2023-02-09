@@ -6,33 +6,27 @@
 /*   By: vfuster- <vfuster-@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:24:14 by vfuster-          #+#    #+#             */
-/*   Updated: 2023/02/09 13:51:01 by vfuster-         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:23:07 by vfuster-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <unistd.h>
 # include <stdlib.h>
-# include <fcntl.h>
+# include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
+#  define BUFFER_SIZE 8192
 # endif
 
-typedef struct s_line
-{
-	char			*content;
-	int				lenght;
-	struct s_line	*next;
-}					t_line;
+# define FD_MAX 10240
 
 char	*get_next_line(int fd);
-t_line	*ft_lstnew(char *content);
-t_line	*ft_lstlast(t_line *lst);
-void	ft_lstclear(t_line **lst, void (*del)(void *));
-void	*ft_calloc(size_t nmemb, size_t size);
-void	ft_lstadd_back(t_line **lst, t_line *new);
+
+size_t	ft_strlen(const char *s);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+char	*ft_strdup(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif

@@ -6,86 +6,101 @@
 /*   By: vfuster- <vfuster-@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:24:01 by vfuster-          #+#    #+#             */
-/*   Updated: 2023/02/09 13:43:52 by vfuster-         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:31:37 by vfuster-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-t_line	*ft_lstnew(char *content)
+size_t	ft_strlen(const char *s)
 {
-	t_line	*new_node;
+	size_t	len;
 
-	new_node = malloc(sizeof(new_node));
-	if (!new_node)
-		return (NULL);
-	new_node->content = content;
-	new_node->lenght = 0;
-	new_node->next = NULL;
-	return (new_node);
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
 }
 
-t_line	*ft_lstlast(t_line *lst)
+static void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
+	void	*desttmp;
+	size_t	i;
+
+	if (dest == NULL && src == NULL)
 	{
-		lst = lst->next;
+		return (dest);
 	}
-	return (lst);
-}
-
-void	ft_lstadd_back(t_line **lst, t_line *new)
-{
-	t_line	*temp;
-
-	if (!new)
-		return ;
-	if (!*lst)
+	i = 0;
+	desttmp = dest;
+	while (i < n)
 	{
-		*lst = new;
-		return ;
+		*(unsigned char *)desttmp = *(unsigned char *)src;
+		i++;
+		desttmp++;
+		src++;
 	}
-	temp = ft_lstlast(*lst);
-	temp->next = new;
+	return (dest);
 }
 
-void	ft_lstclear(t_line **lst, void (*del)(void *))
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	t_line	*temp_lst;
+	size_t	len_src;
+	size_t	i;
 
-	if (*lst || !del)
-		return ;
-	while (*lst != NULL)
+	len_src = ft_strlen(src);
+	i = 0;
+	if (size > len_src)
 	{
-		temp_lst = *lst;
-		*lst = (*lst)->next;
-		free(temp_lst->content);
-		free(temp_lst);
+		while (i < len_src)
+			dst[i++] = 0;
+		ft_memcpy(dst, src, len_src);
+	dst[len_src] = 0;
 	}
-	*lst = NULL;
+	else if (size != 0)
+	{
+		while (i < (size - 1))
+			dst[i++] = 0;
+		if (ft_strlen(src) < (size - 1))
+			ft_memcpy(dst, src, ft_strlen(src));
+		else
+			ft_memcpy(dst, src, (size - 1));
+		dst[size - 1] = 0;
+	}
+	return (len_src);
 }
 
-void	*ft_calloc(size_t nmemb, size_t size)
+char	*ft_strdup(const char *s)
 {
-	void			*arr;
-	size_t			alloc_size;
-	size_t			i;
-	unsigned char	*cast_s;
+	char	*str;
+	size_t	len;
 
-	alloc_size = nmemb * size;
-	if (!alloc_size || alloc_size / nmemb != size)
+	len = ft_strlen(s);
+	str = malloc(sizeof(*str) * len + 1);
+	if (str == NULL)
 		return (NULL);
-	arr = malloc(alloc_size);
-	if (arr == NULL)
+	ft_memcpy(str, s, len);
+	str[len] = 0;
+	return (str);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	len;
+	size_t	i;
+	char	*str;
+	char	*ptr;
+
+	len = ft_strlen(s1) + ft_strlen(s2);
+	str = malloc(sizeof(*str) * len + 1);
+	if (str == NULL)
 		return (NULL);
 	i = 0;
-	cast_s = arr;
-	while (i < alloc_size)
-	{
-		cast_s[i] = '\0';
-		i++;
-	}
-	return (cast_s);
+	while (i < len)
+		str[i++] = 0;
+	ptr = str;
+	ft_memcpy(ptr, s1, ft_strlen(s1) + 1);
+	ptr = ptr + ft_strlen(s1);
+	ft_memcpy(ptr, s2, ft_strlen(s2) + 1);
+	return (str);
 }
