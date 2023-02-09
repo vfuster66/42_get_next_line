@@ -6,7 +6,7 @@
 /*   By: vfuster- <vfuster-@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:24:14 by vfuster-          #+#    #+#             */
-/*   Updated: 2023/02/08 17:57:32 by vfuster-         ###   ########.fr       */
+/*   Updated: 2023/02/09 13:51:01 by vfuster-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,24 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1024
 # endif
 
-# define GNL_LINEBREAK 1
-# define GNL_EOF 0
-# define GNL_ERROR -1
+typedef struct s_line
+{
+	char			*content;
+	int				lenght;
+	struct s_line	*next;
+}					t_line;
 
-int		get_next_line(int fd);
-int		ft_is_new_line(const char *str);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlen(const char *str);
-void	*ft_memmove(void *dst, const void *src, size_t len);
+char	*get_next_line(int fd);
+t_line	*ft_lstnew(char *content);
+t_line	*ft_lstlast(t_line *lst);
+void	ft_lstclear(t_line **lst, void (*del)(void *));
+void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_lstadd_back(t_line **lst, t_line *new);
 
 #endif
