@@ -6,11 +6,16 @@
 /*   By: vfuster- <vfuster-@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:24:28 by vfuster-          #+#    #+#             */
-/*   Updated: 2023/02/09 13:43:02 by vfuster-         ###   ########.fr       */
+/*   Updated: 2023/02/09 14:42:08 by vfuster-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static int	is_new_line(t_line *cache);
+static void	read_line(t_line **cache, int fd);
+static void	create_line(t_line *cache, char **line);
+static void	refactor_line(t_line **cache);
 
 static int	is_new_line(t_line *cache)
 {
@@ -20,13 +25,10 @@ static int	is_new_line(t_line *cache)
 	if (!cache)
 		return (0);
 	i = 0;
-	while (cache->content[i] != '\0')
+	while (cache->content[i])
 	{
-		if (cache->content[i] != '\n')
-		{
-			cache->lenght = ++i;
+		if (cache->content[i] == '\n')
 			return (1);
-		}
 		i++;
 	}
 	cache->lenght = i;
@@ -42,19 +44,23 @@ static void	read_line(t_line **cache, int fd)
 	output = 0;
 	while (!is_new_line(*cache))
 	{
-		buffer = NULL;
+		buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(*buffer));
 		new_node = ft_lstnew(buffer);
-		new_node->content = ft_calloc(sizeof(*buffer), (BUFFER_SIZE + 1));
+		if (!new_node)
+		{
+			free(buffer);
+			return ;
+		}
 		output = read(fd, new_node->content, BUFFER_SIZE);
 		if (output == 0 || output == -1)
 		{
-			free(new_node->content);
+			free(buffer);
 			free(new_node);
 			return ;
 		}
-		new_node->content[BUFFER_SIZE] = '\0';
 		ft_lstadd_back(cache, new_node);
 	}
+	return ;
 }
 
 static void	create_line(t_line *cache, char **line)
@@ -101,11 +107,11 @@ static void	refactor_line(t_line **cache)
 	content = temp->content;
 	size = temp->lenght;
 	temp->content = NULL;
-	ft_lstclear(cache, free);
+	free(temp);
 	i = 0;
 	if (content[size] != '\0')
 	{
-		while (content[size] != '\0')
+		while (content[size])
 			content[i++] = content[size++];
 		content[i] = '\0';
 		new_node = ft_lstnew(content);
@@ -119,15 +125,20 @@ char	*get_next_line(int fd)
 {
 	static t_line	*cache;
 	char			*line;
+	t_line			*temp;
 
-	cache = NULL;
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	read_line(&cache, fd);
 	if (!cache)
+		cache = ft_lstnew(NULL);
+	temp = cache;
+	while (temp->next)
+		temp = temp->next;
+	read_line(temp, fd);
+	if (!temp->content)
 		return (NULL);
-	create_line(cache, &line);
-	refactor_line(&cache);
+	create_line(temp, &line);
+	refactor_line(temp);
 	return (line);
 }
