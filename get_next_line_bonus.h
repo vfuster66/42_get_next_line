@@ -6,7 +6,7 @@
 /*   By: vfuster- <vfuster-@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:51:14 by vfuster-          #+#    #+#             */
-/*   Updated: 2023/02/10 07:53:28 by vfuster-         ###   ########.fr       */
+/*   Updated: 2023/02/10 08:09:02 by vfuster-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, const char *s2);
 size_t	ft_strlcpy(char *dsr, const char *src, size_t size);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 #endif
