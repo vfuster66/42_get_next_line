@@ -6,12 +6,16 @@
 /*   By: vfuster- <vfuster-@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:24:28 by vfuster-          #+#    #+#             */
-/*   Updated: 2023/02/09 15:30:52 by vfuster-         ###   ########.fr       */
+/*   Updated: 2023/02/10 07:37:10 by vfuster-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+/// @brief Calcule la longueur de la ligne dans un tampon donne en parcourant
+/// le tampon jusqu'a ce qu'elle trouve \0 ou \n.
+/// @param buffer Tampon statique
+/// @return Longueur de la ligne
 static size_t	get_len_of_line(char *buffer)
 {
 	size_t	len;
@@ -24,6 +28,11 @@ static size_t	get_len_of_line(char *buffer)
 	return (len);
 }
 
+/// @brief Appelle la fonction read pour lire les donnees dans le tampon
+/// et met a jour la longueur de lecture.
+/// @param fd      Descripteur de fichier
+/// @param buffer  Tampon statique
+/// @return Les donnees lues
 static ssize_t	get_read(int fd, char *buffer)
 {
 	ssize_t	len_read;
@@ -36,6 +45,15 @@ static ssize_t	get_read(int fd, char *buffer)
 	return (len_read);
 }
 
+/// @brief Utilise get_read pour lire les donnees
+/// Alloue de la memoire pour la ligne en utilisant malloc et copie
+/// la ligne actuelle dans le tampon vers la nouvelle memoire allouee
+/// Met a jour le tampon en deplacant les donnees non lues a l'avant
+/// de la chaine.
+/// @param buffer    Tampon statique
+/// @param fd 	     Descripteur de fichier
+/// @param nl_found 
+/// @return Pointeur vers la chaine de caractere contenant la ligne lue
 static char	*get_line(char *buffer, int fd, int *nl_found)
 {
 	ssize_t	len_read;
@@ -64,6 +82,11 @@ static char	*get_line(char *buffer, int fd, int *nl_found)
 	return (line);
 }
 
+/// @brief Lit une ligne a partir d'un descripteur de fichier
+/// Utilise une methode de lecture par bloc pour lire le contenu
+/// du fichier. Stocke les donnees dans un tampon statique (buffer)        
+/// @param fd Descripteur de fichier
+/// @return Pointeur vers la ligne lue ou NULL en cas d'erreur
 char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];

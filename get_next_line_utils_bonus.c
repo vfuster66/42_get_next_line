@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfuster- <vfuster-@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 11:24:01 by vfuster-          #+#    #+#             */
-/*   Updated: 2023/02/09 17:27:53 by vfuster-         ###   ########.fr       */
+/*   Created: 2023/02/09 15:50:23 by vfuster-          #+#    #+#             */
+/*   Updated: 2023/02/10 07:53:36 by vfuster-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 /// @brief calculer la longueur d'une chaine de caracteres sans \0
 /// @param s 
@@ -23,32 +23,6 @@ size_t	ft_strlen(const char *s)
 	while (s[len])
 		len++;
 	return (len);
-}
-
-/// @brief Copie n octet de zone memoire src -> zone memoire dest 
-/// @param dest endroit ou on va copier
-/// @param src  endroit depuis ou on copie
-/// @param n    taille du buffer de destination
-/// @return Pointeur sur dest
-static void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	void	*desttmp;
-	size_t	i;
-
-	if (dest == NULL && src == NULL)
-	{
-		return (dest);
-	}
-	i = 0;
-	desttmp = dest;
-	while (i < n)
-	{
-		*(unsigned char *)desttmp = *(unsigned char *)src;
-		i++;
-		desttmp++;
-		src++;
-	}
-	return (dest);
 }
 
 /// @brief Copie une chaine de caractere garantissant la longueur max pour dst
