@@ -6,7 +6,7 @@
 /*   By: vfuster- <vfuster-@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:50:23 by vfuster-          #+#    #+#             */
-/*   Updated: 2023/02/10 08:08:54 by vfuster-         ###   ########.fr       */
+/*   Updated: 2023/02/13 11:12:47 by vfuster-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ size_t	ft_strlen(const char *s)
 		len++;
 	return (len);
 }
+
 /// @brief Copie n octet de zone memoire src -> zone memoire dest 
 /// @param dest endroit ou on va copier
 /// @param src  endroit depuis ou on copie

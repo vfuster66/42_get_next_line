@@ -6,7 +6,7 @@
 /*   By: vfuster- <vfuster-@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:24:28 by vfuster-          #+#    #+#             */
-/*   Updated: 2023/02/10 07:37:10 by vfuster-         ###   ########.fr       */
+/*   Updated: 2023/02/13 09:04:25 by vfuster-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*new_line;
 
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	nl_found = 0;
 	line = get_line(buffer, fd, &nl_found);
