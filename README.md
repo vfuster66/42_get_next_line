@@ -1,6 +1,6 @@
 # get_next_line
 
-![125](https://user-images.githubusercontent.com/124174795/223974158-16927fd7-4caa-42db-92a7-1183694728db.png)
+✅ Validé à 125% le 17 février 2023
 
 * Reading a line from a fd is way too tedious
 
